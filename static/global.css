@@ -24,29 +24,5 @@ code {
 
 .hljs {
   margin-top: var(--text-margin);
-}
-
-.rendered {
-  margin-top: var(--margin);
-}
-
-.rendered p {
-  margin-top: var(--text-margin);
-}
-
-.rendered h1 {
-  margin-bottom: var(--margin);
-}
-
-@media only screen and (max-width: 840px) {
-  .content {
-    margin: var(--margin);
-  }
-}
-
-@media (min-width: 840px) {
-  .content {
-    max-width: var(--responsive-v);
-    margin: auto;
-  }
+  overflow-x: auto;
 }

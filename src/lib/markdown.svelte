@@ -37,4 +37,16 @@
   .rendered {
     font-family: sans-serif;
   }
+
+  .rendered {
+    margin-top: var(--margin);
+  }
+
+  .rendered p {
+    margin-top: var(--text-margin);
+  }
+
+  .rendered h1 {
+    margin-bottom: var(--margin);
+  }
 </style>

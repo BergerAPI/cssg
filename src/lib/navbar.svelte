@@ -1,7 +1,9 @@
 <script>
 </script>
 
-<div class="nav" />
+<div class="nav">
+  <h2>Portfolio</h2>
+</div>
 
 <style lang="scss">
   .nav {
