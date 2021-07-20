@@ -20,9 +20,33 @@
 </script>
 
 <script>
+  import { goto } from "$app/navigation";
+
   export let posts;
+
+  function onClick(post) {
+    goto("/posts/" + post.url);
+  }
 </script>
 
-{#each posts as post}
-  <a href={"posts/" + post.url}>{post.meta.attributes.title}</a>
-{/each}
+<div class="posts">
+  {#each posts as post}
+    <div class="post" on:click={onClick(post)}>
+      <h1>{post.meta.attributes.title}</h1>
+      <p>By</p>
+      <a href={"https://github.com/" + post.meta.attributes.author}
+        >{post.meta.attributes.author}</a
+      >
+    </div>
+  {/each}
+</div>
+
+<style>
+  .post {
+    margin-bottom: var(--margin);
+  }
+  .post a,
+  p {
+    display: inline;
+  }
+</style>

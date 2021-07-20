@@ -27,6 +27,11 @@ code {
   overflow-x: auto;
 }
 
+a {
+  color: rgb(255, 62, 0);
+  text-decoration: none;
+}
+
 .rendered p {
   margin-top: var(--text-margin);
 }

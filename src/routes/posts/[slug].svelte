@@ -43,9 +43,4 @@
   a {
     display: inline;
   }
-
-  .info a {
-    color: rgb(255, 62, 0);
-    text-decoration: none;
-  }
 </style>
