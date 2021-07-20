@@ -27,7 +27,7 @@
 
     return {
       status: res.status,
-      error: new Error(`Could not load page.`),
+      error: new Error(`Could not load page. - ` + text),
     };
   }
 </script>
