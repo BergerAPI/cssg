@@ -16,11 +16,9 @@
   navConfig.forEach((route) => (routerObject[route.path] = route.object));
 </script>
 
-<div class="g-app-wrapper">
-  <Nav {navConfig} />
-  <div class="content">
-    <slot />
-  </div>
+<Nav {navConfig} />
+<div class="content">
+  <slot />
 </div>
 
 <style lang="scss">
@@ -34,6 +32,7 @@
     .content {
       max-width: var(--responsive-v);
       margin: auto;
+      margin-top: var(--margin);
     }
   }
 </style>

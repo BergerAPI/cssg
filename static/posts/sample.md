@@ -1,6 +1,7 @@
 ---
 title: Circle VS Rectangle Collision
-author: Dot32
+author: Dot32IsCool
+date: 19th Jan 2021
 ---
 
 This written tutorial will show you how to detect interception between circles and rectangles .
@@ -43,5 +44,3 @@ end
 Circle is in the format of {x=, y=, r=}, rectangle is in {x=,y=,w=,h=}
 
 Happy coding!
-
-`Written by Dot32`

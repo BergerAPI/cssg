@@ -26,10 +26,26 @@
   export let markdown;
 </script>
 
-<h1 id="title">{markdown.attributes.title}</h1>
-<p id="author">{markdown.attributes.author}</p>
+<h1>{markdown.attributes.title}</h1>
+
+<div class="info">
+  <p>By</p>
+  <a href={"https://github.com/" + markdown.attributes.author}
+    >{markdown.attributes.author}</a
+  >
+  <p>on {markdown.attributes.date}</p>
+</div>
 
 <Markdown markdown={markdown.body} />
 
 <style>
+  .info p,
+  a {
+    display: inline;
+  }
+
+  .info a {
+    color: rgb(255, 62, 0);
+    text-decoration: none;
+  }
 </style>
