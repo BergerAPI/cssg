@@ -21,11 +21,12 @@
 
 <script>
   import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
 
   export let posts;
 
   function onClick(post) {
-    goto("/posts/" + post.url);
+    goto(base + "/posts/" + post.url);
   }
 </script>
 

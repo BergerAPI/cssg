@@ -3,7 +3,7 @@
   import { base } from "$app/paths";
 
   export async function load({ page, fetch, session, context }) {
-    const res = await fetch("/posts/" + page.params.slug + ".json", {
+    const res = await fetch(base + "/posts/" + page.params.slug + ".json", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -12,6 +12,8 @@
     });
 
     const json = await res.json();
+
+    console.log(json);
 
     if (res.ok) return { props: { markdown: json.meta } };
 
