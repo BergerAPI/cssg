@@ -29,24 +29,26 @@
   }
 </script>
 
-<div class="posts">
-  {#each posts as post}
-    <div class="post" on:click={onClick(post)}>
-      <h1>{post.meta.attributes.title}</h1>
-      <p>By</p>
-      <a href={"https://github.com/" + post.meta.attributes.author}
-        >{post.meta.attributes.author}</a
-      >
-    </div>
-  {/each}
-</div>
+{#each posts as post}
+  <div class="post" on:click={onClick(post)}>
+    <h1>{post.meta.attributes.title}</h1>
+
+    <p>By</p>
+    <p id="author">{post.meta.attributes.author}</p>
+  </div>
+{/each}
 
 <style>
   .post {
     margin-bottom: var(--margin);
+    cursor: pointer;
+    border-radius: 5px;
   }
-  .post a,
-  p {
+  .post p {
     display: inline;
+  }
+
+  #author {
+    color: var(--color);
   }
 </style>

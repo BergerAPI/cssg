@@ -9,6 +9,7 @@
   --responsive-v: 800px;
   --margin: 20px;
   --text-margin: 10px;
+  --color: rgb(255, 62, 0);
 }
 
 body {
@@ -28,7 +29,7 @@ code {
 }
 
 a {
-  color: rgb(255, 62, 0);
+  color: var(--color);
   text-decoration: none;
 }
 
