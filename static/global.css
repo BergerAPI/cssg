@@ -26,3 +26,11 @@ code {
   margin-top: var(--text-margin);
   overflow-x: auto;
 }
+
+.rendered p {
+  margin-top: var(--text-margin);
+}
+
+.rendered h1 {
+  margin-bottom: var(--margin);
+}

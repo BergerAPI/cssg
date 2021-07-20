@@ -1,9 +1,23 @@
 <script>
   import Nav from "$lib/navbar.svelte";
+
+  let navConfig = [
+    {
+      name: "Home",
+      url: "/",
+    },
+    {
+      name: "Posts",
+      url: "/posts",
+    },
+  ];
+
+  const routerObject = {};
+  navConfig.forEach((route) => (routerObject[route.path] = route.object));
 </script>
 
 <div class="g-app-wrapper">
-  <Nav />
+  <Nav {navConfig} />
   <div class="content">
     <slot />
   </div>
