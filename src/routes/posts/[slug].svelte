@@ -12,14 +12,7 @@
   }
 
   export async function load({ page, fetch, session, context }) {
-    const res = await fetch(base + "/posts/" + page.params.slug + "-z.json", {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-
+    const res = await fetch(base + "/posts/" + page.params.slug + "-z.json");
     const text = await res.text();
 
     if (res.ok && isJson(text))
