@@ -9,7 +9,7 @@ export async function get({ params }) {
         body: {
             content: content,
             meta: meta,
-            test: fs.readFileSync("static/posts/" + params.slug + ".md")
+            test: fs.readFileSync("src/posts/" + params.slug + ".md")
         }
     }
 }

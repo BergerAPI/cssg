@@ -4,8 +4,8 @@ import frontMatter from "front-matter";
 export async function get({ params }) {
     let posts = [];
 
-    for (let file of fs.readdirSync("static/posts")) {
-        const query = "static/posts/" + file
+    for (let file of fs.readdirSync("src/posts")) {
+        const query = "src/posts/" + file
         const { body, ...meta } = frontMatter(
             fs.readFileSync(query, "utf8"));
 
