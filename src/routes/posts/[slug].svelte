@@ -1,8 +1,9 @@
 <script context="module">
   import Markdown from "$lib/markdown.svelte";
+  import { base } from "$app/paths";
 
   export async function load({ page, fetch, session, context }) {
-    const res = await fetch("/posts/" + page.params.slug + ".md", {
+    const res = await fetch("/posts/" + page.params.slug + ".json", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -10,7 +11,9 @@
       },
     });
 
-    if (res.ok) return { props: { markdown: await res.text() } };
+    const json = await res.json();
+
+    if (res.ok) return { props: { markdown: json.meta } };
 
     return {
       status: res.status,
@@ -23,4 +26,10 @@
   export let markdown;
 </script>
 
-<Markdown {markdown} />
+<h1 id="title">{markdown.attributes.title}</h1>
+<p id="author">{markdown.attributes.author}</p>
+
+<Markdown markdown={markdown.body} />
+
+<style>
+</style>

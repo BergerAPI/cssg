@@ -3,8 +3,6 @@ title: Circle VS Rectangle Collision
 author: Dot32
 ---
 
-# Circle VS Rectangle Collision
-
 This written tutorial will show you how to detect interception between circles and rectangles .
 
 ![thumbnail gif](https://github.com/Dot32IsCool/dot32-website-v4/blob/main/tutorials/rectvcircle.gif?raw=true)
