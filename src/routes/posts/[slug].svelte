@@ -12,7 +12,7 @@
   }
 
   export async function load({ page, fetch, session, context }) {
-    const res = await fetch(base + "/posts/" + page.params.slug + ".json", {
+    const res = await fetch(base + "/posts/" + page.params.slug + "-z.json", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -26,9 +26,8 @@
       return { props: { markdown: JSON.parse(text).meta } };
 
     return {
-      props: {
-        markdown: text,
-      },
+      status: res.status,
+      error: new Error(`Could not load page.`),
     };
   }
 </script>
@@ -37,21 +36,17 @@
   export let markdown;
 </script>
 
-{#if markdown.title}
-  <h1>{markdown.attributes.title}</h1>
+<h1>{markdown.attributes.title}</h1>
 
-  <div class="info">
-    <p>By</p>
-    <a href={"https://github.com/" + markdown.attributes.author}
-      >{markdown.attributes.author}</a
-    >
-    <p>on {markdown.attributes.date}</p>
-  </div>
+<div class="info">
+  <p>By</p>
+  <a href={"https://github.com/" + markdown.attributes.author}
+    >{markdown.attributes.author}</a
+  >
+  <p>on {markdown.attributes.date}</p>
+</div>
 
-  <Markdown markdown={markdown.body} />
-{:else}
-  <p>{"error is: " + markdown || "no error?"}</p>
-{/if}
+<Markdown markdown={markdown.body} />
 
 <style>
   .info p,
