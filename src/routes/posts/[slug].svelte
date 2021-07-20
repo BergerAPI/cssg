@@ -2,6 +2,15 @@
   import Markdown from "$lib/markdown.svelte";
   import { base } from "$app/paths";
 
+  function isJson(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   export async function load({ page, fetch, session, context }) {
     const res = await fetch(base + "/posts/" + page.params.slug + ".json", {
       method: "GET",
@@ -11,15 +20,15 @@
       },
     });
 
-    const json = await res.json();
+    const text = await res.text();
 
-    console.log(json);
-
-    if (res.ok) return { props: { markdown: json.meta } };
+    if (res.ok && isJson(text))
+      return { props: { markdown: JSON.parse(text).meta } };
 
     return {
-      status: res.status,
-      error: new Error(`Could not load page.`),
+      props: {
+        markdown: text,
+      },
     };
   }
 </script>
@@ -28,17 +37,21 @@
   export let markdown;
 </script>
 
-<h1>{markdown.attributes.title}</h1>
+{#if markdown.title}
+  <h1>{markdown.attributes.title}</h1>
 
-<div class="info">
-  <p>By</p>
-  <a href={"https://github.com/" + markdown.attributes.author}
-    >{markdown.attributes.author}</a
-  >
-  <p>on {markdown.attributes.date}</p>
-</div>
+  <div class="info">
+    <p>By</p>
+    <a href={"https://github.com/" + markdown.attributes.author}
+      >{markdown.attributes.author}</a
+    >
+    <p>on {markdown.attributes.date}</p>
+  </div>
 
-<Markdown markdown={markdown.body} />
+  <Markdown markdown={markdown.body} />
+{:else}
+  <p>{"error is: " + markdown || "no error?"}</p>
+{/if}
 
 <style>
   .info p,
