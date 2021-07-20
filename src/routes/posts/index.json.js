@@ -1,7 +1,16 @@
 import fs from 'fs'
+import frontMatter from "front-matter";
 
 export async function get({ params }) {
-    let posts = fs.readdirSync("static/posts");
+    let posts = [];
+
+    for (let file of fs.readdirSync("static/posts")) {
+        const query = "static/posts/" + file
+        const { body, ...meta } = frontMatter(
+            fs.readFileSync(query, "utf8"));
+
+        posts.push({ body, meta, url: file.split(".")[ 0 ] })
+    }
 
     if (!posts) {
         return {
@@ -13,7 +22,7 @@ export async function get({ params }) {
 
     return {
         body: {
-            posts: posts.map((item) => item.split(".")[ 0 ])
+            posts
         }
     }
 }

@@ -1,7 +1,5 @@
 <script context="module">
-  import fs from "fs";
-
-  export async function load({ page, fetch, session, context }) {
+  export async function load({ fetch }) {
     const res = await fetch("/posts.json", {
       method: "GET",
       mode: "cors",
@@ -26,5 +24,5 @@
 </script>
 
 {#each posts as post}
-  <a href={"posts/" + post}>{post}</a>
+  <a href={"posts/" + post.url}>{post.meta.attributes.title}</a>
 {/each}
