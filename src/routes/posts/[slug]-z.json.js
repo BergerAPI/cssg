@@ -3,7 +3,7 @@ import frontMatter from "front-matter";
 
 export async function get({ params }) {
     const { content, ...meta } = frontMatter(
-        fs.readFileSync("static/posts/" + params.slug + ".md", "utf8"));
+        fs.readFileSync("src/posts/" + params.slug + ".md", "utf8"));
 
     return {
         body: {
