@@ -8,8 +8,7 @@ export async function get({ params }) {
     return {
         body: {
             content: content,
-            meta: meta,
-            test: fs.readFileSync("src/posts/" + params.slug + ".md")
+            meta: meta
         }
     }
 }

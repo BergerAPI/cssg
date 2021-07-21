@@ -24,29 +24,35 @@
   import { base } from "$app/paths";
 
   export let posts;
-
-  function onClick(post) {
-    goto(base + "/posts/" + post.url);
-  }
 </script>
 
 {#each posts as post}
-  <div class="post" on:click={onClick(post)}>
-    <h1>{post.meta.attributes.title}</h1>
+  <div class="post">
+    <a href="posts/{post.url}">{post.meta.attributes.title}</a>
 
-    <p>By</p>
-    <p id="author">{post.meta.attributes.author}</p>
+    <div>
+      <p>By</p>
+      <p id="author">{post.meta.attributes.author}</p>
+    </div>
   </div>
 {/each}
 
 <style>
   .post {
     margin-bottom: var(--margin);
-    cursor: pointer;
     border-radius: 5px;
   }
   .post p {
     display: inline;
+  }
+
+  .post a {
+    font-size: xx-large;
+    color: white;
+  }
+
+  .post a:hover {
+    text-decoration: underline;
   }
 
   #author {
