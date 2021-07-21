@@ -20,7 +20,7 @@
 
     return {
       status: res.status,
-      error: new Error(`Could not load page. - ` + text),
+      error: new Error("Could not load page."),
     };
   }
 </script>
