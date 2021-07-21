@@ -20,19 +20,18 @@
 </script>
 
 <script>
-  import { goto } from "$app/navigation";
-  import { base } from "$app/paths";
-
   export let posts;
 </script>
 
 {#each posts as post}
   <div class="post">
-    <a href="posts/{post.url}">{post.meta.attributes.title}</a>
+    <a id="title" href="posts/{post.url}">{post.meta.attributes.title}</a>
 
     <div>
       <p>By</p>
-      <p id="author">{post.meta.attributes.author}</p>
+      <a id="author" href="https://github.com/{post.meta.attributes.author}"
+        >{post.meta.attributes.author}</a
+      >
     </div>
   </div>
 {/each}
@@ -46,7 +45,7 @@
     display: inline;
   }
 
-  .post a {
+  .post #title {
     font-size: xx-large;
     color: white;
   }
@@ -55,7 +54,7 @@
     text-decoration: underline;
   }
 
-  #author {
+  .post #author {
     color: var(--color);
   }
 </style>
