@@ -1,6 +1,10 @@
 {
-  "name": "~TODO~",
+  "name": "blog",
   "version": "0.0.1",
+  "engines": {
+    "node": "^12.20 || >=14.13",
+    "npm": ">= 1.0.0"
+  },
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
