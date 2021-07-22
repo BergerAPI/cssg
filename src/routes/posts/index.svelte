@@ -51,6 +51,7 @@
 
   .post #title {
     font-size: xx-large;
+    font-weight: bold;
     color: white;
   }
 

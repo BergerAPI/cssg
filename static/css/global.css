@@ -9,11 +9,11 @@
   --responsive-v: 800px;
   --margin: 20px;
   --text-margin: 10px;
-  --color: rgb(255, 62, 0);
+  --color: #e9c46a;
 }
 
 body {
-  background-color: #1f1b24;
+  background-color: rgb(21, 23, 24);
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;

@@ -12,27 +12,38 @@
     },
   ];
 
-  const routerObject = {};
-  navConfig.forEach((route) => (routerObject[route.name] = route.url));
+  let socials = [
+    {
+      url: "https://github.com/bergerapi",
+      icon: "fa-github",
+    },
+    {
+      url: "https://twitter.com/dreckigeruser",
+      icon: "fa-twitter",
+    },
+  ];
 </script>
 
-<Nav {navConfig} />
+<Nav {navConfig} {socials}>
+  <a href="https://github.com/BergerAPI">
+    <i class="fab fa-github fa-lg" />
+  </a>
+</Nav>
 <div class="content">
   <slot />
 </div>
 
 <style lang="scss">
-  @media only screen and (max-width: 840px) {
-    .content {
-      margin: var(--margin);
-    }
+  .content {
+    max-width: var(--responsive-v);
+    margin: auto;
+    margin-top: var(--margin);
   }
 
-  @media (min-width: 840px) {
+  @media (max-width: 840px) {
     .content {
-      max-width: var(--responsive-v);
-      margin: auto;
-      margin-top: var(--margin);
+      margin: var(--margin);
+      max-width: none;
     }
   }
 </style>
