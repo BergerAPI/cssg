@@ -35,6 +35,10 @@
   export let markdown;
 </script>
 
+<svelte:head>
+  <title>{markdown.attributes.title}</title>
+</svelte:head>
+
 <h1>{markdown.attributes.title}</h1>
 
 <div class="info">

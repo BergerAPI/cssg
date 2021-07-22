@@ -13,7 +13,7 @@
   ];
 
   const routerObject = {};
-  navConfig.forEach((route) => (routerObject[route.path] = route.object));
+  navConfig.forEach((route) => (routerObject[route.name] = route.url));
 </script>
 
 <Nav {navConfig} />

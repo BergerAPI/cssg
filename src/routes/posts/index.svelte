@@ -23,6 +23,10 @@
   export let posts;
 </script>
 
+<svelte:head>
+  <title>Posts</title>
+</svelte:head>
+
 {#each posts as post}
   <div class="post">
     <a id="title" href="posts/{post.url}">{post.meta.attributes.title}</a>

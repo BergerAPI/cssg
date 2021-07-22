@@ -6,7 +6,7 @@
 
   export let markdown;
 
-  var md = new MarkdownIt({
+  let md = new MarkdownIt({
     highlight: (str, lang) => {
       if (lang && hljs.getLanguage(lang)) {
         try {
