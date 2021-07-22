@@ -14,7 +14,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="socials">
     {#each socials as social}
       <a href={social.url}>
         <i class={"fab fa-lg " + social.icon} />
@@ -25,9 +25,9 @@
 
 <style>
   .content {
-    max-width: 1000px;
-    height: 50px;
+    max-width: 75%;
     margin: 0 auto;
+    height: 50px;
     border-bottom: 1px solid rgb(27, 28, 28);
     justify-content: space-between;
   }
@@ -42,5 +42,11 @@
     font-size: 1em;
     text-decoration: none;
     margin-left: 20px;
+  }
+
+  @media (max-width: 450px) {
+    .socials {
+      visibility: hidden;
+    }
   }
 </style>

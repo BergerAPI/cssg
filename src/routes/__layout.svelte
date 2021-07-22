@@ -29,6 +29,7 @@
     <i class="fab fa-github fa-lg" />
   </a>
 </Nav>
+
 <div class="content">
   <slot />
 </div>
