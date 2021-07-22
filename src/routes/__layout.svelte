@@ -24,11 +24,7 @@
   ];
 </script>
 
-<Nav {navConfig} {socials}>
-  <a href="https://github.com/BergerAPI">
-    <i class="fab fa-github fa-lg" />
-  </a>
-</Nav>
+<Nav {navConfig} {socials} />
 
 <div class="content">
   <slot />

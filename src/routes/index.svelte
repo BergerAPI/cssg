@@ -1,5 +1,6 @@
 <script context="module">
   import Markdown from "$lib/markdown.svelte";
+  import Terminal from "$lib/terminal.svelte";
 
   export async function load({ page, fetch, session, context }) {
     const res = await fetch("/index.md", {
@@ -27,4 +28,5 @@
   <title>Home</title>
 </svelte:head>
 
+<Terminal />
 <Markdown {markdown} />
