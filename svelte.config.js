@@ -1,4 +1,4 @@
-import Adapter from '@sveltejs/adapter-netlify'
+import Adapter from '@sveltejs/adapter-static'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
