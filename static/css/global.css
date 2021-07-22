@@ -40,3 +40,8 @@ a {
 .rendered h1 {
   margin-bottom: var(--margin);
 }
+
+.rendered img {
+  max-width: 100%;
+  height: auto;
+}
