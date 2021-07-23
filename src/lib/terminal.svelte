@@ -75,6 +75,11 @@
       trigger: "cd",
       description: "Change Directory.",
       run: (args, print) => {
+        if (args.length <= 0) {
+          push("Please specify the destination directory.", "red");
+          return;
+        }
+
         let destination = (args[0].startsWith("/") ? "" : "/") + args[0];
         let exists = folders[currentDir].find(
           (item) => item.type == "folder" && item.name == destination
@@ -99,13 +104,18 @@
       trigger: "cat",
       description: "Print the contents of a file.",
       run: (args, print) => {
+        if (args.length <= 0) {
+          push("Please specify the file.", "red");
+          return;
+        }
+
         let file = args[0];
         let item = folders[currentDir].find(
           (item) => item.type == "file" && item.name == file
         );
 
         if (!item) {
-          print("File doesn't exist.");
+          print("File doesn't exist.", "red");
           return;
         }
 
@@ -300,11 +310,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-  }
-
-  .body p {
-    font-family: "Fira Code", monospace;
-    font-size: 0.9em;
   }
 
   .body #form {
