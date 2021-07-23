@@ -70,7 +70,8 @@
     </div>
 
     <form id="form">
-      <!-- svelte-ignore a11y-autofocus -->
+      <i class="fas fa-angle-right" />
+
       <input
         onblur="this.focus()"
         autoCorrect="off"
@@ -158,6 +159,10 @@
     width: 100%;
   }
 
+  .body #form {
+    display: flex;
+  }
+
   .body #input {
     background: transparent;
     border: none;
@@ -166,6 +171,7 @@
     font-family: "Fira Code", monospace;
     outline: none;
     width: 100%;
+    margin-left: 0.5em;
   }
 
   @keyframes blink-caret {
