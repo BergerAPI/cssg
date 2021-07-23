@@ -83,15 +83,16 @@
         if (destination === "/..") {
           let split = currentDir.split("/");
           currentDir = "/" + split[split.length - 2] || "/";
-          return;
+        } else {
+          if (!folders[destination] || !exists) {
+            print("No such folder.");
+            return;
+          }
+
+          currentDir = destination;
         }
 
-        if (!folders[destination] || !exists) {
-          print("No such folder.");
-          return;
-        }
-
-        currentDir = destination;
+        print("You're now in " + currentDir);
       },
     },
     {
@@ -230,6 +231,8 @@
     width: 60vh;
     height: 60vh;
 
+    max-width: 100%;
+
     margin-left: auto;
     margin-right: auto;
 
@@ -291,7 +294,7 @@
     height: 50vh;
 
     background-color: rgb(29 31 33);
-    overflow: hidden;
+    overflow: auto;
     border-radius: 0 0 0.8em 0.8em;
 
     display: flex;
