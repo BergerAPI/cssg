@@ -6,12 +6,26 @@
   const commands = [
     {
       trigger: "echo",
+      description: "Print things.",
       run: (args, print) => {
         print(args.join(" "));
       },
     },
     {
+      trigger: "help",
+      description: "Do you need help?",
+      run: (_, print) => {
+        print("Help for you:");
+        print(" ");
+
+        commands.forEach((item) => {
+          print(item.trigger + " - " + item.description);
+        });
+      },
+    },
+    {
       trigger: "clear",
+      description: "Removing every line.",
       run: (_, print) => {
         const oLength = output.length;
 
@@ -22,6 +36,7 @@
     },
     {
       trigger: "neofetch",
+      description: "Infos about the system.",
       run: (_, print) => {
         print("                    'c.          niclas@macbook", "#06d6a0");
         print("                 ,xNMM.          --------------", "#06d6a0");
@@ -125,7 +140,15 @@
 <style>
   .content {
     width: 60vh;
-    margin: 0 auto;
+    height: 60vh;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
   }
 
   .flex {
