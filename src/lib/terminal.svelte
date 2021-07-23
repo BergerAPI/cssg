@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
 
   let output = [];
 
@@ -161,6 +162,21 @@
         output = [];
 
         print("Cleared " + oLength + " lines.");
+      },
+    },
+    {
+      trigger: "redirect",
+      description: "Redirecting to a page.",
+      run: (args, print) => {
+        if (
+          args.length <= 0 ||
+          args[0].split(".")[args[0].split(".").length - 1] !== "page"
+        ) {
+          print("Please specify the page.", "red");
+          return;
+        }
+
+        goto(args[0].split(".")[0]);
       },
     },
     {
