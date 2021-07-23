@@ -2,35 +2,52 @@
   import { onMount } from "svelte";
 
   let output = [];
-  let currentLine = ">";
 
-  const invalid = [16, 91, 18, 9, 20, 38, 37, 39, 40];
+  const commands = [
+    {
+      trigger: "echo",
+      run: (args, print) => {
+        print(args.join(" "));
+      },
+    },
+    {
+      trigger: "clear",
+      run: () => {
+        output = [];
+      },
+    },
+  ];
 
   function push(text) {
     output = [...output, { text, color: "#FFF" }];
   }
 
   function runCommand(input) {
-    push(input);
+    if (input.length === 0) return;
+
+    const split = input.split(" ");
+
+    const command = commands.find((item) => item.trigger === split[0]);
+
+    const args = split.slice(1);
+
+    if (!command) return;
+
+    command.run(args, push);
   }
 
-  function handleKeydown(event) {
-    if (invalid.includes(event.keyCode)) return;
+  onMount(() => {
+    document.getElementById("input").focus();
+    document.getElementById("form").onsubmit = (event) => {
+      event.preventDefault();
 
-    if (event.key === "Backspace") {
-      currentLine = currentLine.slice(0, -1);
-    } else if (event.key == "Enter") {
-      runCommand(currentLine);
-      currentLine = ">";
-    } else {
-      currentLine += event.key;
-    }
-  }
+      console.log(document.getElementById("input").value);
 
-  onMount(() => {});
+      runCommand(document.getElementById("input").value);
+      document.getElementById("input").value = "";
+    };
+  });
 </script>
-
-<svelte:window on:keydown={handleKeydown} />
 
 <div class="content">
   <div class="header flex">
@@ -52,9 +69,16 @@
       {/each}
     </div>
 
-    <div class="current">
-      <p id="currentLine">{currentLine}</p>
-    </div>
+    <form id="form">
+      <!-- svelte-ignore a11y-autofocus -->
+      <input
+        onblur="this.focus()"
+        autoCorrect="off"
+        autoCapitalize="none"
+        autoComplete="off"
+        id="input"
+      />
+    </form>
   </div>
 </div>
 
@@ -116,7 +140,7 @@
     height: 50vh;
 
     background-color: rgb(29 31 33);
-    overflow: auto;
+    overflow: hidden;
     border-radius: 0 0 0.8em 0.8em;
 
     display: flex;
@@ -126,7 +150,7 @@
 
   .body p {
     font-family: "Fira Code", monospace;
-    font-size: 0.8em;
+    font-size: 0.9em;
   }
 
   .body .current {
@@ -134,10 +158,14 @@
     width: 100%;
   }
 
-  .body .current #currentLine {
-    position: absolute;
-    border-right: 0.1em solid var(--color);
-    animation: typing 3s steps(50, end), blink-caret 1.5s step-end infinite;
+  .body #input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 0.9em;
+    font-family: "Fira Code", monospace;
+    outline: none;
+    width: 100%;
   }
 
   @keyframes blink-caret {
