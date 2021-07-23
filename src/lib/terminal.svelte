@@ -3,7 +3,7 @@
 
   let output = [];
 
-  // fake file system
+  // fake file system (very bad i know)
   let currentDir = "/";
   let folders = {
     "/": [
@@ -32,6 +32,18 @@
       {
         type: "file",
         name: ".credentials.txt",
+        contents:
+          "Did you really think, that you'd get my credentials? :kek: 😂",
+      },
+      {
+        type: "folder",
+        name: "/.test",
+      },
+    ],
+    "/.test": [
+      {
+        type: "file",
+        name: ".credentials2.txt",
         contents:
           "Did you really think, that you'd get my credentials? :kek: 😂",
       },
@@ -67,7 +79,11 @@
         print("Files and Folders in " + currentDir + ":");
 
         folders[currentDir].forEach((item) => {
-          if (!item.name.startsWith(".") || force) print(" - " + item.name);
+          if (
+            (!item.name.startsWith(".") && !item.name.startsWith("/.")) ||
+            force
+          )
+            print(" - " + item.name);
         });
       },
     },
@@ -113,6 +129,20 @@
         let item = folders[currentDir].find(
           (item) => item.type == "file" && item.name == file
         );
+
+        if (file.includes("/")) {
+          let split = file.split("/");
+          let sDir = currentDir;
+
+          split.slice(0, -1).forEach((item) => (currentDir = "/" + item));
+
+          item = folders[currentDir].find(
+            (item) =>
+              item.type == "file" && item.name == split[split.length - 1]
+          );
+
+          currentDir = sDir;
+        }
 
         if (!item) {
           print("File doesn't exist.", "red");
