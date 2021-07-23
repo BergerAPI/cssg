@@ -1,11 +1,13 @@
 <script>
-  $: output = [];
-  let currentLine = "";
+  import { onMount } from "svelte";
+
+  let output = [];
+  let currentLine = ">";
 
   const invalid = [16, 91, 18, 9, 20, 38, 37, 39, 40];
 
   function push(text) {
-    output.push({ text, color: "#FFF" });
+    output = [...output, { text, color: "#FFF" }];
   }
 
   function runCommand(input) {
@@ -19,17 +21,13 @@
       currentLine = currentLine.slice(0, -1);
     } else if (event.key == "Enter") {
       runCommand(currentLine);
-      document.getElementById("output").innerHTML = output
-        .map(
-          ({ text, color }) =>
-            '<p style="color: ' + color + '">' + text + "</p>"
-        )
-        .join("");
-      currentLine = "";
+      currentLine = ">";
     } else {
       currentLine += event.key;
     }
   }
+
+  onMount(() => {});
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -50,11 +48,13 @@
   <div class="body">
     <div id="output">
       {#each output as line}
-        <p style="color: {line.color}">{line.text}</p>
+        <p id={line.text} style="color: {line.color}">{line.text}</p>
       {/each}
     </div>
 
-    <p id="currentLine">{currentLine}</p>
+    <div class="current">
+      <p id="currentLine">{currentLine}</p>
+    </div>
   </div>
 </div>
 
@@ -116,14 +116,12 @@
     height: 50vh;
 
     background-color: rgb(29 31 33);
-    overflow: hidden;
+    overflow: auto;
     border-radius: 0 0 0.8em 0.8em;
 
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-
-    padding-bottom: 0.75em;
   }
 
   .body p {
@@ -131,8 +129,15 @@
     font-size: 0.8em;
   }
 
-  .body #currentLine {
-    background-color: green;
+  .body .current {
+    height: 20px;
+    width: 100%;
+  }
+
+  .body .current #currentLine {
+    position: absolute;
+    border-right: 0.1em solid var(--color);
+    animation: typing 3s steps(50, end), blink-caret 1.5s step-end infinite;
   }
 
   @keyframes blink-caret {
