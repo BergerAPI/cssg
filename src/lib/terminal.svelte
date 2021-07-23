@@ -12,14 +12,47 @@
     },
     {
       trigger: "clear",
-      run: () => {
+      run: (_, print) => {
+        const oLength = output.length;
+
         output = [];
+
+        print("Cleared " + oLength + " lines.");
+      },
+    },
+    {
+      trigger: "neofetch",
+      run: (_, print) => {
+        print("                    'c.          niclas@macbook", "#06d6a0");
+        print("                 ,xNMM.          --------------", "#06d6a0");
+        print("               .OMMMMo           Name: Niclas", "#06d6a0");
+        print("               OMMM0,            Country: Germany", "#06d6a0");
+        print("     .;loddo:' loolloddol;.      Status: Student", "#06d6a0");
+        print(
+          "   cKMMMMMMMMMMNWMMMMMMMMMM0:    Experience: 5 years",
+          "#06d6a0"
+        );
+        print(" .KMMMMMMMMMMMMMMMMMMMMMMMWd.    Web Dev 💪", "#ffd166");
+        print(
+          " XMMMMMMMMMMMMMMMMMMMMMMMX.      Software developer 🤯",
+          "#ffd166"
+        );
+        print(";MMMMMMMMMMMMMMMMMMMMMMMM:       ", "#ef476f");
+        print(".MMMMMMMMMMMMMMMMMMMMMMMMX.      ", "#ef476f");
+        print(" kMMMMMMMMMMMMMMMMMMMMMMMMWd.    ", "#ef476f");
+        print(" .XMMMMMMMMMMMMMMMMMMMMMMMMMMk   ", "#ef476f");
+        print("  .XMMMMMMMMMMMMMMMMMMMMMMMMK.   ", "#ecbcfd");
+        print("    kMMMMMMMMMMMMMMMMMMMMMMd     ", "#ecbcfd");
+        print("     ;KMMMMMMMWXXWMMMMMMMk.      ", "#118ab2");
+        print("       .cooc,.    .,coo:.        ", "#118ab2");
+
+        push(" ");
       },
     },
   ];
 
-  function push(text) {
-    output = [...output, { text, color: "#FFF" }];
+  function push(text, color = "#FFF") {
+    output = [...output, { text: text, color }];
   }
 
   function runCommand(input) {
@@ -31,7 +64,11 @@
 
     const args = split.slice(1);
 
-    if (!command) return;
+    if (!command) {
+      push("The command '" + split[0] + "' wasn't found.", "red");
+
+      return;
+    }
 
     command.run(args, push);
   }
@@ -46,6 +83,8 @@
       runCommand(document.getElementById("input").value);
       document.getElementById("input").value = "";
     };
+
+    runCommand("neofetch");
   });
 </script>
 
@@ -65,7 +104,7 @@
   <div class="body">
     <div id="output">
       {#each output as line}
-        <p id={line.text} style="color: {line.color}">{line.text}</p>
+        <pre id={line.text} style="color: {line.color}">{line.text}</pre>
       {/each}
     </div>
 
@@ -152,11 +191,6 @@
   .body p {
     font-family: "Fira Code", monospace;
     font-size: 0.9em;
-  }
-
-  .body .current {
-    height: 20px;
-    width: 100%;
   }
 
   .body #form {
