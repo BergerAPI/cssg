@@ -3,6 +3,41 @@
 
   let output = [];
 
+  // fake file system
+  let currentDir = "/";
+  let folders = {
+    "/": [
+      {
+        type: "file",
+        name: "posts.page",
+        contents: "/posts",
+      },
+      {
+        type: "file",
+        name: "home.page",
+        contents: "/",
+      },
+      {
+        type: "file",
+        name: "hello.txt",
+        contents:
+          "Hello my friend. I'm glad, that you discovered the cat command!",
+      },
+      {
+        type: "folder",
+        name: "/secret",
+      },
+    ],
+    "/secret": [
+      {
+        type: "file",
+        name: ".credentials.txt",
+        contents:
+          "Did you really think, that you'd get my credentials? :kek: 😂",
+      },
+    ],
+  };
+
   const commands = [
     {
       trigger: "echo",
@@ -21,6 +56,59 @@
         commands.forEach((item) => {
           print(item.trigger + " - " + item.description);
         });
+      },
+    },
+    {
+      trigger: "ls",
+      description: "Lists every file and folder in your directory.",
+      run: (args, print) => {
+        let force = args.includes("-f");
+
+        print("Files and Folders in " + currentDir + ":");
+
+        folders[currentDir].forEach((item) => {
+          if (!item.name.startsWith(".") || force) print(" - " + item.name);
+        });
+      },
+    },
+    {
+      trigger: "cd",
+      description: "Change Directory.",
+      run: (args, print) => {
+        let destination = (args[0].startsWith("/") ? "" : "/") + args[0];
+        let exists = folders[currentDir].find(
+          (item) => item.type == "folder" && item.name == destination
+        );
+
+        if (destination === "/..") {
+          let split = currentDir.split("/");
+          currentDir = "/" + split[split.length - 2] || "/";
+          return;
+        }
+
+        if (!folders[destination] || !exists) {
+          print("No such folder.");
+          return;
+        }
+
+        currentDir = destination;
+      },
+    },
+    {
+      trigger: "cat",
+      description: "Print the contents of a file.",
+      run: (args, print) => {
+        let file = args[0];
+        let item = folders[currentDir].find(
+          (item) => item.type == "file" && item.name == file
+        );
+
+        if (!item) {
+          print("File doesn't exist.");
+          return;
+        }
+
+        print(item.contents);
       },
     },
     {
@@ -112,7 +200,7 @@
     </div>
 
     <div class="title">
-      <p>Alacritty - BergerAPI</p>
+      <p>Alacritty</p>
     </div>
   </div>
 
@@ -195,8 +283,8 @@
 
   .header .title p {
     color: rgb(105, 105, 105);
-    font-size: 0.9em;
     font-family: "Fira Code", monospace;
+    font-size: 0.9em;
   }
 
   .body {
@@ -229,15 +317,5 @@
     outline: none;
     width: 100%;
     margin-left: 0.5em;
-  }
-
-  @keyframes blink-caret {
-    from,
-    to {
-      border-color: transparent;
-    }
-    50% {
-      border-color: var(--color);
-    }
   }
 </style>
