@@ -12,6 +12,4 @@ In this tutorial I want to show you how to create a linear/quadratic Bézier cur
 
 ![thumbnail gif](/img/bezier/linear.gif)
 
-The formula for the linear Bézier curve is:
-
-$$b\left(t\right)=\left(1-t\right)P_{1}+tP_{2}$$
+The formula for the linear Bézier curve is: $b\left(t\right)=\left(1-t\right)P_{1}+tP_{2}$

@@ -28,21 +28,18 @@
   const rendered = md.render(markdown);
 
   onMount(() => {
-    let script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
-    document.head.append(script);
-
-    script.onload = () => {
-      MathJax = {
-        tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"],
-          ],
-        },
-        svg: { fontCache: "global" },
-      };
-    };
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
   });
 </script>
 
