@@ -33,8 +33,14 @@ a {
   text-decoration: none;
 }
 
-.rendered p {
+.rendered p,
+hr {
   margin-top: var(--text-margin);
+}
+
+.rendered hr {
+  background-color: rgb(21, 23, 24);
+  margin-bottom: var(--text-margin);
 }
 
 .rendered h1 {

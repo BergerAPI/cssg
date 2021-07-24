@@ -343,7 +343,6 @@
   .header .title p {
     color: rgb(105, 105, 105);
     font-family: "Fira Code", monospace;
-    font-size: 0.9em;
   }
 
   .body {

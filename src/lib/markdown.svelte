@@ -1,12 +1,12 @@
 <!-- src/Markdown.svelte -->
 <script>
-  import MarkdownIt from "markdown-it";
+  import { Remarkable } from "remarkable";
   import hljs from "highlight.js";
   import "highlight.js/styles/atom-one-dark.css";
 
   export let markdown;
 
-  let md = new MarkdownIt({
+  let md = new Remarkable({
     highlight: (str, lang) => {
       if (lang && hljs.getLanguage(lang)) {
         try {
@@ -19,10 +19,9 @@
         } catch (__) {}
       }
 
-      return (
-        '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + "</code></pre>"
-      );
+      return "";
     },
+    html: true,
   });
 
   // Render to an html string
