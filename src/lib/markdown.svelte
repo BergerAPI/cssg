@@ -3,6 +3,7 @@
   import { Remarkable } from "remarkable";
   import hljs from "highlight.js";
   import "highlight.js/styles/atom-one-dark.css";
+  import { onMount } from "svelte";
 
   export let markdown;
 
@@ -18,7 +19,6 @@
           );
         } catch (__) {}
       }
-
       return "";
     },
     html: true,
@@ -26,6 +26,24 @@
 
   // Render to an html string
   const rendered = md.render(markdown);
+
+  onMount(() => {
+    let script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
+    document.head.append(script);
+
+    script.onload = () => {
+      MathJax = {
+        tex: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+        },
+        svg: { fontCache: "global" },
+      };
+    };
+  });
 </script>
 
 <div class="rendered">

@@ -14,6 +14,4 @@ In this tutorial I want to show you how to create a linear/quadratic Bézier cur
 
 The formula for the linear Bézier curve is:
 
-```latex
-b\left(t\right)=\left(1-t\right)P_{1}+tP_{2}
-```
+$$b\left(t\right)=\left(1-t\right)P_{1}+tP_{2}$$
