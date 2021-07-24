@@ -40,6 +40,13 @@
       // • rendering keys, e.g.:
       throwOnError: false,
     });
+
+    var classes = document.getElementsByClassName("katex");
+    for (let i = 0; i < classes.length; i++) {
+      let element = classes[i];
+
+      element.classList.add("hljs");
+    }
   });
 </script>
 
