@@ -22,7 +22,11 @@
       return "";
     },
     html: true,
+    typographer: true,
+    quotes: "“”‘’",
   });
+
+  md.core.ruler.enable(["replacements", "smartquotes"]);
 
   // Render to an html string
   const rendered = md.render(markdown);
