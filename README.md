@@ -28,3 +28,7 @@ An example could look like this:
 ```shell
 $ cssg -file content/test.md -template template/post.html 
 ```
+
+# Example
+
+![image](https://user-images.githubusercontent.com/58854363/185811701-512d9f15-3a4f-43fa-8042-2a5c478fb22c.png)
