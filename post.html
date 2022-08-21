@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="{{description}}">
+    <title>{{name}}</title>
+
+    <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/pojoaque.css">
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
+
+<body>
+<div id="content">
+    {{content}}
+</div>
+</body>
+
+<script>
+    const md = new Remarkable();
+    const content = document.getElementById("content")
+
+    hljs.highlightAll()
+
+    content.innerHTML = md.render(content.innerHTML);
+</script>
+
+</html>
