@@ -3,4 +3,4 @@ project(blog C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(blog cssg.c str.c str.h)
+add_executable(blog src/cssg.c src/str.c src/str.h src/file.c src/file.h)
