@@ -20,3 +20,5 @@ func main() {
     return
 }
 ```
+
+Welcome to this blog post, which currently acts as placeholder for other posts.
