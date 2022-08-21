@@ -1,6 +1,6 @@
 # CSSG
 
-This is a simple Static-Site-Generator and my blog. Since I am very creative, I call the SSG "CSSG", dueto it being written in C.
+This is a simple Static-Site-Generator and my blog. Since I am very creative, I call the SSG "CSSG", due to it being written in C.
 
 # Building
 
