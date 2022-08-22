@@ -8,7 +8,7 @@ author: niclas
 
 ```C
 int main() {
-    printf("Hello World ! ! !");f
+    printf("Hello World ! ! !");
     return 0;
 }
 ```
