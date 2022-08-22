@@ -22,7 +22,7 @@ struct FileInfo {
 };
 
 Parameter *parse_argv(char **argv) {
-    Parameter *parameter = new Parameter();
+    auto *parameter = new Parameter();
 
     int i = 1; // This is one because we want to ignore the path which is position 1
 
@@ -61,7 +61,7 @@ Parameter *parse_argv(char **argv) {
 }
 
 FileInfo *get_head(const std::string content) {
-    FileInfo *file_info = new FileInfo();
+    auto *file_info = new FileInfo();
 
     int i = 0;
     int ctx = 0;
@@ -115,7 +115,7 @@ FileInfo *get_head(const std::string content) {
     return file_info;
 }
 
-std::string generate_html(FileInfo *i, std::string &content, std::string &template_content) {
+std::string generate_html(FileInfo *i, std::string &content, std::string template_content) {
     printf("Name: %s \n", i->name.c_str());
     printf("Description: %s \n", i->description.c_str());
     printf("Author: %s \n", i->author.c_str());
