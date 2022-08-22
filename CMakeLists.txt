@@ -3,4 +3,7 @@ project(cssg CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(cssg src/cssg.cpp src/str.cpp src/str.h src/file.cpp src/file.h)
+add_executable(cssg
+        src/cssg.cpp src/str.cpp src/str.h
+        src/file.cpp src/file.h src/parameter.cpp
+        src/parameter.h)
