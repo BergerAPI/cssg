@@ -28,19 +28,19 @@ Parameter *parse_argv(char **argv) {
     int i = 1; // This is one because we want to ignore the path which is position 1
 
     while (1) {
-        char *currentArgument = argv[i];
+        char *current_argument = argv[i];
 
-        if (currentArgument == NULL)
+        if (current_argument == NULL)
             break;
 
-        int file = strcmp(currentArgument, "-file") == 0;
-        int template = strcmp(currentArgument, "-template") == 0;
+        int file = strcmp(current_argument, "-file") == 0;
+        int template = strcmp(current_argument, "-template") == 0;
 
         if (file || template) {
             char *filePath = argv[++i];
 
             if (filePath == NULL) {
-                printf("You messed up big time. You forgot to provide a value to %s. \n", currentArgument);
+                printf("You messed up big time. You forgot to provide a value to %s. \n", current_argument);
                 exit(1);
             }
 
@@ -62,7 +62,7 @@ Parameter *parse_argv(char **argv) {
 }
 
 FileInfo *get_head(const char *content) {
-    FileInfo *fileInfo = malloc(sizeof(FileInfo));
+    FileInfo *file_info = malloc(sizeof(FileInfo));
 
     int i = 0;
     int ctx = 0;
@@ -70,10 +70,10 @@ FileInfo *get_head(const char *content) {
     char line;
     char *l = "";
 
-    fileInfo->size = 0;
+    file_info->size = 0;
 
     while ((line = content[i++]) != 0) {
-        fileInfo->size++;
+        file_info->size++;
 
         if (line != '\n') {
             unsigned int len = strlen(l);
@@ -85,7 +85,7 @@ FileInfo *get_head(const char *content) {
 
             l = strdup(buf);
             continue;
-        };
+        }
 
 
         if (strcmp(l, "---") == 0) {
@@ -98,7 +98,7 @@ FileInfo *get_head(const char *content) {
             break;
         }
 
-        // We're in a context were the head is defined
+        // We're in a context where the head is defined
         // This head looks like this
         //
         // name: niclas
@@ -108,19 +108,19 @@ FileInfo *get_head(const char *content) {
             int offset = 1; // Real length of the string, otherwise we'll get that ':' too
 
             if (str_starts_with(TAG_NAME, l))
-                fileInfo->name = str_trim(str_substring(strlen(TAG_NAME) + offset, strlen(l) + 1, l));
+                file_info->name = str_trim(str_substring(strlen(TAG_NAME) + offset, strlen(l) + 1, l));
 
             if (str_starts_with(TAG_DESCRIPTION, l))
-                fileInfo->description = str_trim(str_substring(strlen(TAG_DESCRIPTION) + offset, strlen(l) + 1, l));
+                file_info->description = str_trim(str_substring(strlen(TAG_DESCRIPTION) + offset, strlen(l) + 1, l));
 
             if (str_starts_with(TAG_AUTHOR, l))
-                fileInfo->author = str_trim(str_substring(strlen(TAG_AUTHOR) + offset, strlen(l) + 1, l));
+                file_info->author = str_trim(str_substring(strlen(TAG_AUTHOR) + offset, strlen(l) + 1, l));
         }
 
         l = "";
     }
 
-    return fileInfo;
+    return file_info;
 }
 
 char *generate_html(FileInfo *i, char *content, char *template) {

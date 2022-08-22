@@ -7,7 +7,7 @@ int str_starts_with(char *prefix, char *content) {
     return strncmp(prefix, content, strlen(prefix)) == 0;
 }
 
-char *str_substring(int f, int t, char *content) {
+char *str_substring(size_t f, size_t t, const char *content) {
     char *sub = malloc(sizeof(char) * (t - f));
     int c = 0;
 
@@ -41,10 +41,10 @@ char *str_replace(char *orig, char *rep, char *with) {
     char *result;
     char *ins;
     char *tmp;
-    int len_rep;
-    int len_with;
-    int len_front;
-    int count;
+    size_t len_rep;
+    size_t len_with;
+    size_t len_front;
+    size_t count;
 
     if (!orig || !rep)
         return NULL;
@@ -60,7 +60,7 @@ char *str_replace(char *orig, char *rep, char *with) {
     len_with = strlen(with);
     ins = orig;
 
-    for (count = 0; tmp = strstr(ins, rep); ++count) {
+    for (count = 0; (tmp = strstr(ins, rep)); ++count) {
         ins = tmp + len_rep;
     }
 
@@ -84,7 +84,7 @@ char *str_replace(char *orig, char *rep, char *with) {
 
 char *str_lower(char *content) {
     for (int i = 0; content[i]; i++)
-        content[i] = tolower(content[i]);
+        content[i] = (char) tolower(content[i]);
 
     return content;
 }

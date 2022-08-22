@@ -2,7 +2,7 @@
 
 int str_starts_with(char *prefix, char *content);
 
-char *str_substring(int f, int t, char *content);
+char *str_substring(size_t f, size_t t, const char *content);
 
 char *str_trim(char *str);
 
