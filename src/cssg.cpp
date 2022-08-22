@@ -68,6 +68,21 @@ FileInfo *get_head(const std::string content) {
     return file_info;
 }
 
+std::string generate_html_header(FileInfo *i) {
+    std::string result;
+
+    result.append("<meta name=\"description\" content=\"" + i->values["description"] + "\">\n");
+    result.append("<title>" + i->values["name"] + "</title>");
+
+    // For Social-Media (Discord, Skype, Twitter etc.)
+    result.append("<meta property=\"og:title\" content=\"" + i->values["name"] + "\" />\n");
+    result.append("<meta property=\"og:description\" content=\"" + i->values["description"] + "\" />\n");
+    result.append("<meta name=\"theme-color\" content=\"#FF0000\">\n");
+    result.append("<meta property=\"og:type\" content=\"website\" />\n");
+
+    return result;
+}
+
 std::string generate_html(FileInfo *i, std::string &content, std::string template_content) {
     content = content.substr(i->size, content.length());
 
@@ -75,6 +90,7 @@ std::string generate_html(FileInfo *i, std::string &content, std::string templat
         template_content = replaceAll(template_content, "{{" + item.first + "}}", item.second);
 
     template_content = replaceAll(template_content, "{{content}}", content);
+    template_content = replaceAll(template_content, "{{head}}", generate_html_header(i));
 
     return template_content;
 }
