@@ -1,28 +1,39 @@
 #include <iostream>
 #include <algorithm>
+#include <map>
 
 #include "str.h"
 #include "file.h"
 
-const std::string TAG_DESCRIPTION = "description:";
-const std::string TAG_AUTHOR = "author:";
-const std::string TAG_NAME = "name:";
-
+/* Information about a parameter that could be passed to the command line */
 struct Parameter {
-    std::string template_path{};
-    std::string input{};
+    std::string name = {};
+    bool required = {};
 };
 
+/* Information about a markdown file */
 struct FileInfo {
-    std::string name{};
-    std::string description{};
-    std::string author{};
+    std::map<std::string, std::string> values;
 
+    /* How big the head is */
     int size{};
 };
 
-Parameter *parse_argv(char **argv) {
-    auto *parameter = new Parameter();
+/* All tags that one can use in their markdown file */
+const std::vector<std::string> available_tags = {
+        "name",
+        "description",
+        "author"
+};
+
+/* All command line parameter that are available to use  */
+const std::vector<Parameter> available_parameter = {
+        Parameter{"input", true},
+        Parameter{"template", true}
+};
+
+std::map<std::string, std::string> parse_argv(char **argv) {
+    std::map<std::string, std::string> map;
 
     int i = 1; // This is one because we want to ignore the path which is position 1
 
@@ -32,32 +43,28 @@ Parameter *parse_argv(char **argv) {
         if (current_argument == nullptr)
             break;
 
-        int file = current_argument == std::string("-file");
-        int template_path = current_argument == std::string("-template");
+        for (const auto &item: available_parameter)
+            if (current_argument == ("-" + item.name)) {
+                char *value = argv[++i];
 
-        if (file || template_path) {
-            char *filePath = argv[++i];
+                if (value == nullptr) {
+                    printf("You messed up big time. You forgot to provide a value to %s. \n", current_argument);
+                    exit(1);
+                }
 
-            if (filePath == nullptr) {
-                printf("You messed up big time. You forgot to provide a value to %s. \n", current_argument);
-                exit(1);
+                map[item.name] = value;
             }
-
-            if (file)
-                parameter->input = filePath;
-            if (template_path)
-                parameter->template_path = filePath;
-        }
 
         ++i;
     }
 
-    if (parameter->input.length() == 0 || parameter->template_path.length() == 0) {
-        printf("You failed to provide data.");
-        exit(1);
-    }
+    for (const auto &item: available_parameter)
+        if (item.required && !map.contains(item.name)) {
+            printf("You failed to provide required data.");
+            exit(1);
+        }
 
-    return parameter;
+    return map;
 }
 
 FileInfo *get_head(const std::string content) {
@@ -96,16 +103,10 @@ FileInfo *get_head(const std::string content) {
         // name: niclas
         // description: ...
         // ...
-        if (ctx) {
-            if (line.starts_with(TAG_NAME))
-                file_info->name = str_trim(line.substr(TAG_NAME.length(), line.length()));
-
-            if (line.starts_with(TAG_DESCRIPTION))
-                file_info->description = str_trim(line.substr(TAG_DESCRIPTION.length(), line.length()));
-
-            if (line.starts_with(TAG_AUTHOR))
-                file_info->author = str_trim(line.substr(TAG_AUTHOR.length(), line.length()));
-        }
+        if (ctx)
+            for (const auto &item: available_tags)
+                if (line.starts_with(item))
+                    file_info->values[item] = str_trim(line.substr(item.length() + 1, line.length()));
 
         line = "";
     }
@@ -116,42 +117,46 @@ FileInfo *get_head(const std::string content) {
 std::string generate_html(FileInfo *i, std::string &content, std::string template_content) {
     content = content.substr(i->size, content.length());
 
-    template_content = replaceAll(template_content, "{{name}}", i->name);
-    template_content = replaceAll(template_content, "{{description}}", i->description);
-    template_content = replaceAll(template_content, "{{author}}", i->author);
+    for (const auto &item: i->values)
+        template_content = replaceAll(template_content, "{{" + item.first + "}}", item.second);
+
     template_content = replaceAll(template_content, "{{content}}", content);
 
     return template_content;
 }
 
-void process_file(std::string &template_content, std::string &file_path) {
-    std::string file_content = read_file(file_path);
+void debug_log(std::string path, FileInfo *i) {
+    std::cout << "path: " << path << std::endl;
 
-    FileInfo *file_info = get_head(file_content);
-    std::string file_name = replaceAll(file_info->name, " ", "-") + ".html";
-
-    std::transform(file_name.begin(), file_name.end(), file_name.begin(), ::tolower);
-
-    // Some cool debug information
-    std::cout << "Path: " << file_path << std::endl;
-    std::cout << "Name: " << file_info->name << std::endl;
-    std::cout << "Description: " << file_info->description << std::endl;
-    std::cout << "Author: " << file_info->author << std::endl;
-
-    write_file(file_name, generate_html(file_info, file_content, template_content));
+    for (const auto &item: i->values)
+        std::cout << (item.first + ": " + item.second) << std::endl;
 
     std::cout << "---" << std::endl;
 }
 
+void process_file(std::string &template_path, std::string &file_path) {
+    std::string file_content = read_file(file_path);
+    std::string template_content = read_file(template_path);
+
+    FileInfo *file_info = get_head(file_content);
+    std::string file_name = replaceAll(file_info->values["name"], " ", "-") + ".html";
+
+    std::transform(file_name.begin(), file_name.end(), file_name.begin(), ::tolower);
+
+    write_file(file_name, generate_html(file_info, file_content, template_content));
+    debug_log(file_path, file_info);
+}
+
 int main(__attribute__((unused)) int argc, char **argv) {
-    Parameter *p = parse_argv(argv);
+    auto p = parse_argv(argv);
 
-    std::string template_content = read_file(p->template_path);
+    auto input = p["input"];
+    auto tmp = p["template"];
 
-    if (is_directory(p->input))
-        for (std::string value: get_files_in_directory(p->input))
-            process_file(template_content, value);
-    else process_file(template_content, p->input);
+    if (is_directory(input))
+        for (std::string value: get_files_in_directory(input))
+            process_file(tmp, value);
+    else process_file(tmp, input);
 
     std::cout << "Successfully generated the pages." << std::endl;
 
