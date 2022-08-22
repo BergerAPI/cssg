@@ -4,32 +4,32 @@
 #include "file.h"
 
 char *read_file(char *path) {
-    FILE *f = fopen(path, "r");
+    FILE *file = fopen(path, "r");
 
-    if (f == NULL) {
+    if (file == NULL) {
         printf("This file does not exist. \n");
         exit(1);
     }
 
-    fseek(f, 0, SEEK_END);
-    long fsize = ftell(f);
-    fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
+    fseek(file, 0, SEEK_END);
+    long fsize = ftell(file);
+    fseek(file, 0, SEEK_SET);  /* same as rewind(file); */
 
-    char *c = malloc(fsize + 1);
-    fread(c, fsize, 1, f);
-    fclose(f);
+    char *content = malloc(fsize + 1);
+    fread(content, fsize, 1, file);
+    fclose(file);
 
-    return c;
+    return content;
 }
 
 void write_file(char *path, char *content) {
-    FILE *f = fopen(path, "wa");
+    FILE *file = fopen(path, "wa");
 
-    if (f == NULL) {
+    if (file == NULL) {
         exit(1);
     }
 
-    fwrite(content, 1, strlen(content), f);
+    fwrite(content, 1, strlen(content), file);
 
-    fclose(f);
+    fclose(file);
 }
