@@ -1,11 +1,7 @@
 #pragma once
 
-int str_starts_with(char *prefix, char *content);
+std::string str_trim(std::basic_string<char> str);
 
-char *str_substring(size_t f, size_t t, const char *content);
+bool replace(std::string& str, const std::string& from, const std::string& to);
 
-char *str_trim(char *str);
-
-char *str_replace(char *orig, char *rep, char *with);
-
-char *str_lower(char *content);
+std::string replaceAll(std::string str, const std::string& from, const std::string& to);

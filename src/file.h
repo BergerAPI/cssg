@@ -1,11 +1,12 @@
 #pragma once
 
-char *read_file(char *path);
+#include <iostream>
+#include <vector>
 
-int is_directory(char *path);
+std::string read_file(std::string path);
 
-int create_directory(char *path);
+bool is_directory(const std::string &path);
 
-char **get_files_in_directory(char *path);
+std::vector<std::string> get_files_in_directory(std::string path);
 
-void write_file(char *path, char *content);
+void write_file(std::string path, std::string content);

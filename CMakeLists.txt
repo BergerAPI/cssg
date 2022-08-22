@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
-project(cssg C)
+project(cssg CXX)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 23)
 
-add_executable(cssg src/cssg.c src/str.c src/str.h src/file.c src/file.h)
+add_executable(cssg src/cssg.cpp src/str.cpp src/str.h src/file.cpp src/file.h)

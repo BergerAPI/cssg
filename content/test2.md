@@ -1,22 +1,17 @@
 ---
-name: other test Post
-description: A test post.
+name: Second Test
+description: Second example of this SSG.
 author: niclas
 ---
 
 # Hello World!
 
-```go
-package main
-import "fmt"
-func main() {
-    ch := make(chan float64)
-    ch <- 1.0e10    // magic number
-    x, ok := <- ch
-    defer fmt.Println(`exitting now\`)
-    go println(len("hello world!"))
-    return
+```C
+int main() {
+    printf("Hello World ! ! !");
+    return 0;
 }
 ```
 
-Welcome to this blog post, which currently acts as placeholder for other posts.
+My favorite ice cream is cookie.
+This is cool. Here's some inline code ``gamer 1337``
