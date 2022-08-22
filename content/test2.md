@@ -1,5 +1,5 @@
 ---
-name: test Post
+name: other test Post
 description: A test post.
 author: niclas
 ---
@@ -8,9 +8,7 @@ author: niclas
 
 ```go
 package main
-
 import "fmt"
-
 func main() {
     ch := make(chan float64)
     ch <- 1.0e10    // magic number
