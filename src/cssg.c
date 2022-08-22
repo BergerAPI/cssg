@@ -23,68 +23,67 @@ typedef struct {
 } FileInfo;
 
 Parameter *parse_argv(char **argv) {
-    Parameter *p = malloc(sizeof(Parameter));
+    Parameter *parameter = malloc(sizeof(Parameter));
 
     int i = 1; // This is one because we want to ignore the path which is position 1
 
     while (1) {
-        char *c = argv[i];
+        char *currentArgument = argv[i];
 
-        if (c == NULL)
+        if (currentArgument == NULL)
             break;
 
-        int file = strcmp(c, "-file") == 0;
-        int template = strcmp(c, "-template") == 0;
+        int file = strcmp(currentArgument, "-file") == 0;
+        int template = strcmp(currentArgument, "-template") == 0;
 
         if (file || template) {
-            char *v = argv[++i];
+            char *filePath = argv[++i];
 
-            if (v == NULL) {
-                printf("You messed up big time. You forgot to provide a value to %s. \n", c);
+            if (filePath == NULL) {
+                printf("You messed up big time. You forgot to provide a value to %s. \n", currentArgument);
                 exit(1);
             }
 
             if (file)
-                p->file = v;
+                parameter->file = filePath;
             if (template)
-                p->template = v;
+                parameter->template = filePath;
         }
 
         ++i;
     }
 
-    if (p->file == NULL || p->template == NULL) {
+    if (parameter->file == NULL || parameter->template == NULL) {
         printf("You failed to provide data.");
         exit(1);
     }
 
-    return p;
+    return parameter;
 }
 
 FileInfo *get_head(const char *content) {
-    FileInfo *info = malloc(sizeof(FileInfo));
+    FileInfo *fileInfo = malloc(sizeof(FileInfo));
 
     int i = 0;
     int ctx = 0;
 
-    char c;
+    char line;
     char *l = "";
 
-    info->size = 0;
+    fileInfo->size = 0;
 
-    while ((c = content[i++]) != NULL) {
-        info->size += 1;
+    while ((line = content[i++]) != 0) {
+        fileInfo->size++;
 
-        if (c != '\n') {
-            int len = strlen(l);
+        if (line != '\n') {
+            unsigned int len = strlen(l);
             char buf[len + 2];
 
             strcpy(buf, l);
-            buf[len] = c;
+            buf[len] = line;
             buf[len + 1] = 0;
 
             l = strdup(buf);
-
             continue;
         };
 
@@ -109,19 +108,19 @@ FileInfo *get_head(const char *content) {
             int offset = 1; // Real length of the string, otherwise we'll get that ':' too
 
             if (str_starts_with(TAG_NAME, l))
-                info->name = str_trim(str_substring(strlen(TAG_NAME) + offset, strlen(l) + 1, l));
+                fileInfo->name = str_trim(str_substring(strlen(TAG_NAME) + offset, strlen(l) + 1, l));
 
             if (str_starts_with(TAG_DESCRIPTION, l))
-                info->description = str_trim(str_substring(strlen(TAG_DESCRIPTION) + offset, strlen(l) + 1, l));
+                fileInfo->description = str_trim(str_substring(strlen(TAG_DESCRIPTION) + offset, strlen(l) + 1, l));
 
             if (str_starts_with(TAG_AUTHOR, l))
-                info->author = str_trim(str_substring(strlen(TAG_AUTHOR) + offset, strlen(l) + 1, l));
+                fileInfo->author = str_trim(str_substring(strlen(TAG_AUTHOR) + offset, strlen(l) + 1, l));
         }
 
         l = "";
     }
 
-    return info;
+    return fileInfo;
 }
 
 char *generate_html(FileInfo *i, char *content, char *template) {
@@ -145,10 +144,10 @@ int main(__attribute__((unused)) int argc, char **argv) {
     char *content = read_file(p->file);
     char *template = read_file(p->template);
 
-    FileInfo *i = get_head(content);
-    char *file_name = str_lower(strcat(str_replace(i->name, " ", "-"), ".html"));
+    FileInfo *fileInfo = get_head(content);
+    char *file_name = str_lower(strcat(str_replace(fileInfo->name, " ", "-"), ".html"));
 
-    write_file(file_name, generate_html(i, content, template));
+    write_file(file_name, generate_html(fileInfo, content, template));
 
     free(p);
 
