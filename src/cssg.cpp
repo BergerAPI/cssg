@@ -116,10 +116,6 @@ FileInfo *get_head(const std::string content) {
 }
 
 std::string generate_html(FileInfo *i, std::string &content, std::string template_content) {
-    printf("Name: %s \n", i->name.c_str());
-    printf("Description: %s \n", i->description.c_str());
-    printf("Author: %s \n", i->author.c_str());
-
     content = content.substr(i->size, content.length());
 
     template_content = replaceAll(template_content, "{{name}}", i->name);
@@ -140,6 +136,9 @@ void process_file(std::string &template_content, std::string &file_path) {
 
     // Some cool debug information
     std::cout << "Path: " << file_path << std::endl;
+    std::cout << "Name: " << file_info->name << std::endl;
+    std::cout << "Description: " << file_info->description << std::endl;
+    std::cout << "Author: " << file_info->author << std::endl;
 
     write_file(file_name, generate_html(file_info, file_content, template_content));
 
