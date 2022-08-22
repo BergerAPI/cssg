@@ -97,8 +97,6 @@ FileInfo *get_head(const std::string content) {
         // description: ...
         // ...
         if (ctx) {
-            int offset = 1; // Real length of the string, otherwise we'll get that ':' too
-
             if (line.starts_with(TAG_NAME))
                 file_info->name = str_trim(line.substr(TAG_NAME.length(), line.length()));
 
