@@ -13,7 +13,8 @@ struct Parameter {
 /* All command line parameter that are available to use  */
 const std::vector<Parameter> available_parameter = {
         Parameter{"input", true},
-        Parameter{"template", true}
+        Parameter{"post-template", true},
+        Parameter{"index-template", false},
 };
 
 std::map<std::string, std::string> parse_argv(char **argv);
