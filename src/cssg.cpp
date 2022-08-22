@@ -118,7 +118,7 @@ void process_file(std::string &template_path, std::string &file_path) {
     FileInfo *file_info = get_head(file_content);
     std::string file_name = get_html_file_name(file_info);
 
-    write_file(file_name, generate_html(file_info, file_content, template_content));
+    write_file("./out/posts/" + file_name, generate_html(file_info, file_content, template_content));
     debug_log(file_path, file_info);
 }
 
@@ -131,11 +131,16 @@ int main(__attribute__((unused)) int argc, char **argv) {
 
     auto posts = get_files_in_directory(input);
 
+    // Creating the out directory
+    create_directory("out", true);
+    create_directory("out/posts");
+
     if (is_directory(input))
         for (std::string value: posts)
             process_file(postTemplate, value);
     else process_file(postTemplate, input);
 
+    /* Creates an index file, containing all posts */
     if (p.contains("index-template")) {
         std::string index_content = read_file(indexTemplate);
         std::string list_string = "";
@@ -143,14 +148,16 @@ int main(__attribute__((unused)) int argc, char **argv) {
         std::for_each(posts.begin(), posts.end(), [&list_string](std::string &value) {
             std::string file_content = read_file(value);
             FileInfo *file_info = get_head(file_content);
+
             list_string +=
-                    "<li><a href=\"" + get_html_file_name(file_info) + "\">" + file_info->values["name"] + "</a></li> \n";
+                    "<li><a href=\"posts/" + get_html_file_name(file_info) + "\">" + file_info->values["name"] +
+                    "</a></li> \n";
         });
 
         index_content = replaceAll(index_content, "{{items}}", list_string);
-        write_file("index.html", index_content);
-    }
 
+        write_file("out/index.html", index_content);
+    }
 
     std::cout << "Successfully generated the pages." << std::endl;
 
