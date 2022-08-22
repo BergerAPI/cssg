@@ -11,7 +11,7 @@
 
 typedef struct {
     char *template;
-    char *file;
+    char *input;
 } Parameter;
 
 typedef struct {
@@ -45,7 +45,7 @@ Parameter *parse_argv(char **argv) {
             }
 
             if (file)
-                parameter->file = filePath;
+                parameter->input = filePath;
             if (template)
                 parameter->template = filePath;
         }
@@ -53,7 +53,7 @@ Parameter *parse_argv(char **argv) {
         ++i;
     }
 
-    if (parameter->file == NULL || parameter->template == NULL) {
+    if (parameter->input == NULL || parameter->template == NULL) {
         printf("You failed to provide data.");
         exit(1);
     }
@@ -138,16 +138,33 @@ char *generate_html(FileInfo *i, char *content, char *template) {
     return template;
 }
 
+void process_file(char *template, char *filePath) {
+    char *fileContent = read_file(filePath);
+    FileInfo *fileInfo = get_head(fileContent);
+    char *html = generate_html(fileInfo, fileContent, template);
+    char *file_name = str_lower(strcat(str_replace(fileInfo->name, " ", "-"), ".html"));
+
+    write_file(file_name, html);
+}
+
 int main(__attribute__((unused)) int argc, char **argv) {
     Parameter *p = parse_argv(argv);
 
-    char *content = read_file(p->file);
     char *template = read_file(p->template);
 
-    FileInfo *fileInfo = get_head(content);
-    char *file_name = str_lower(strcat(str_replace(fileInfo->name, " ", "-"), ".html"));
+    if (is_directory(p->input)) {
+        char **list = get_files_in_directory("content");
+        for (int i = 0; list[i] != NULL; i++) {
+            char *file = list[i];
+            char buff[255];
+            sprintf(buff, "%s%s", p->input, file);
 
-    write_file(file_name, generate_html(fileInfo, content, template));
+            process_file(template, buff);
+        }
+    } else {
+        process_file(template, p->input);
+    }
+
 
     free(p);
 

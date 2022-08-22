@@ -1,5 +1,5 @@
 ---
-name: test Post
+name: other test Post
 description: A test post.
 author: niclas
 ---

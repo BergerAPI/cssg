@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "str.h"
+#include <stdarg.h>
+#include <stdio.h>
 
 int str_starts_with(char *prefix, char *content) {
     return strncmp(prefix, content, strlen(prefix)) == 0;
@@ -64,7 +66,7 @@ char *str_replace(char *orig, char *rep, char *with) {
         ins = tmp + len_rep;
     }
 
-    tmp = result = malloc(strlen(orig) + (len_with - len_rep) * count + 1);
+    tmp = result = malloc((strlen(orig) + (len_with - len_rep) * count + 1));
 
     if (!result)
         return NULL;
