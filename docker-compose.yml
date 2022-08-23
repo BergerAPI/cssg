@@ -8,5 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
+    volumes:
+      - ./out:/usr/share/nginx/html
     ports:
       - "8080:8080"
