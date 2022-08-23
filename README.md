@@ -20,8 +20,9 @@ Now you can run the SSG. See #usage
 
 There are 2 parameters that you will need to provide:
 
-- `-file`: Defines the file to parse and generate HTML from
-- `-template`: The template of the html code, which gets all the infos from the file injected in.
+- `-input`: Defines the file or an directory to parse and generate HTML from
+- `-post-template`: The template of the html code, which gets all the infos from the file injected in.
+- `-index-template`: The html template of the start page.
 
 An example could look like this:
 
